@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { generateToken } from "../libs/utils.js";
+import cloudinary from "../libs/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { email, fullname, password } = req.body;
@@ -74,6 +75,39 @@ export const logout = async (req, res) => {
   }
 };
 
-export const updateProfile = async(req,res)=>{
-    
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const userId = req.user._id;
+    if (!profile)
+      return res.status(400).json({
+        message: "profile pic required",
+      });
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updateUser = await User.findByIdAndUpdate(
+      userId,
+      { profile: uploadResponse.secure_url },
+      { new: true }
+      //By default, findOneAndUpdate() returns the document as it was before update was applied. 
+      // If you set new: true, findOneAndUpdate() will instead give you the object after update was applied.
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "internal error" });
+  }
+};
+
+export const checkAuth = async(req,res)=>{
+
+  try
+  {
+    res.status(200).json(
+      req.user
+    )
+  }
+  catch(error){
+    console.log("error",error.message)
+    res.status(500).json({message:"internal server error"})
+  }
+
 }

@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json()); // to de construct the req
 app.use(cookieParser()); // for handling JWT cookies
 app.use("/api/auth", authRouter);
+app.use("/api/message", messageRouter); // for handling JWT cookies
 app.listen(PORT, () => {
   console.log(`server is running on PORT:${PORT}`);
   connectDB();
