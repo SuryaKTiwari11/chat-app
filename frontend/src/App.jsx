@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./components/Home/HomePage";
+import AuthPage from "./components/Auth/AuthPage";
+import ProfilePage from "./components/Profile/ProfilePage";
+import SettingsPage from "./components/Settings/SettingsPage";
+import Loader from "./components/UI/Loader";
+import { useAuthStore } from "./store/useAuthStore";
+import { axiosInstance } from "./lib/axios";
+import { Toaster } from "react-hot-toast";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+ 
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+
+  useEffect(() => {
+    // Check if user is already authenticated
+    checkAuth();
+  }, [checkAuth]);
+
+  console.log(authUser)
+  if (isCheckingAuth && !authUser) {
+    return <Loader fullScreen size="large" />;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<HomePage />} />
+        
+        {/* Protected Routes - Require Authentication */}
+        <Route
+          path="/dashboard"
+          element={authUser ? <HomePage /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/profile"
+          element={authUser ? <ProfilePage /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/settings"
+          element={authUser ? <SettingsPage /> : <Navigate to="/login" replace />}
+        />
+        
+        {/* Auth Routes - Redirect if already authenticated */}
+        <Route
+          path="/login"
+          element={authUser ? <Navigate to="/" replace /> : <AuthPage authMode="login" />}
+        />
+        <Route
+          path="/signup"
+          element={authUser ? <Navigate to="/" replace /> : <AuthPage authMode="signup" />}
+        />
+        
+        {/* Fallback/Not Found Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Toaster position="top-right" />
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
