@@ -19,7 +19,7 @@ app.use(
   })
 );
 app.use("/api/auth", authRouter);
-app.use("/api/message", messageRouter); // for handling JWT cookies
+app.use("/api/messages", messageRouter); // for handling JWT cookies
 server.listen(PORT, () => {
   console.log(`server is running on PORT:${PORT}`);
   connectDB();

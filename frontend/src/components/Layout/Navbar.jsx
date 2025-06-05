@@ -27,7 +27,7 @@ const Navbar = () => {
         setIsUserMenuOpen(false);
       }
     };
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -71,7 +71,6 @@ const Navbar = () => {
               ConnectChat
             </h1>
           </Link>
-
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
             <NavLink to="/" isActive={isActive("/")}>
@@ -83,7 +82,8 @@ const Navbar = () => {
             <NavLink to="/pricing" isActive={isActive("/pricing")}>
               Pricing
             </NavLink>
-          </div>          {/* Desktop Auth Buttons or User Menu */}
+          </div>{" "}
+          {/* Desktop Auth Buttons or User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {!authUser ? (
               <>
@@ -119,7 +119,9 @@ const Navbar = () => {
                       </div>
                     )}
                   </div>
-                  <span className="hidden lg:block">{authUser.fullname || "User"}</span>
+                  <span className="hidden lg:block">
+                    {authUser.fullname || "User"}
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={`h-5 w-5 transition-transform duration-200 ${
@@ -135,7 +137,7 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                
+
                 {/* Dropdown Menu */}
                 <div
                   className={`absolute right-0 mt-2 w-56 bg-[#1E293B] rounded-xl shadow-lg py-2 z-50 transform origin-top-right transition-all duration-200 ${
@@ -146,44 +148,68 @@ const Navbar = () => {
                 >
                   <div className="px-4 py-2 border-b border-gray-700">
                     <p className="text-sm text-gray-400">Signed in as</p>
-                    <p className="text-white font-medium truncate">{authUser.email}</p>
+                    <p className="text-white font-medium truncate">
+                      {authUser.email}
+                    </p>
                   </div>
-                  
                   <Link
                     to="/profile"
                     onClick={() => setIsUserMenuOpen(false)}
                     className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
                   >
                     <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-2 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       Your Profile
                     </div>
-                  </Link>
-                  
+                  </Link>{" "}
                   <Link
                     to="/settings"
                     onClick={() => setIsUserMenuOpen(false)}
                     className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
                   >
                     <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-2 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       Settings
-                    </div>
-                  </Link>
-                  
+                    </div>                  </Link>
                   <div className="border-t border-gray-700 my-2"></div>
-                  
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
                   >
                     <div className="flex items-center text-red-400 hover:text-red-300">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414a1 1 0 00-.293-.707L11.414 2.414A1 1 0 0010.707 2H4a1 1 0 00-1 1zm9 2.414L15.586 9H12V5.414zM4 4h5v5h5v6H4V4z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414a1 1 0 00-.293-.707L11.414 2.414A1 1 0 0010.707 2H4a1 1 0 00-1 1zm9 2.414L15.586 9H12V5.414zM4 4h5v5h5v6H4V4z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                       Logout
                     </div>
@@ -192,7 +218,6 @@ const Navbar = () => {
               </div>
             )}
           </div>
-
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -233,9 +258,8 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      
-          
-          {/* Mobile Menu */}
+
+      {/* Mobile Menu */}
       <div
         className={`md:hidden absolute top-full left-0 right-0 bg-[#1E293B] border-t border-gray-800 transition-all duration-300 ease-in-out ${
           isMobileMenuOpen
@@ -259,7 +283,7 @@ const Navbar = () => {
           >
             Pricing
           </MobileNavLink>
-          
+
           {authUser ? (
             <>
               {/* User info section */}
@@ -278,17 +302,25 @@ const Navbar = () => {
                   )}
                 </div>
                 <div>
-                  <p className="text-white font-medium">{authUser.fullname || "User"}</p>
-                  <p className="text-gray-400 text-sm truncate">{authUser.email}</p>
+                  <p className="text-white font-medium">
+                    {authUser.fullname || "User"}
+                  </p>
+                  <p className="text-gray-400 text-sm truncate">
+                    {authUser.email}
+                  </p>
                 </div>
               </div>
-              
-              <MobileNavLink to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
+              <MobileNavLink
+                to="/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Profile
-              </MobileNavLink>
-              <MobileNavLink to="/settings" onClick={() => setIsMobileMenuOpen(false)}>
-                Settings
-              </MobileNavLink>
+              </MobileNavLink>{" "}
+              <MobileNavLink
+                to="/settings"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Settings              </MobileNavLink>
               <div className="pt-3">
                 <button
                   onClick={() => {
@@ -297,8 +329,17 @@ const Navbar = () => {
                   }}
                   className="w-full px-4 py-2.5 text-red-400 hover:bg-[#334155] rounded-lg transition duration-300 text-left flex items-center"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414a1 1 0 00-.293-.707L11.414 2.414A1 1 0 0010.707 2H4a1 1 0 00-1 1zm9 2.414L15.586 9H12V5.414zM4 4h5v5h5v6H4V4z" clipRule="evenodd" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V7.414a1 1 0 00-.293-.707L11.414 2.414A1 1 0 0010.707 2H4a1 1 0 00-1 1zm9 2.414L15.586 9H12V5.414zM4 4h5v5h5v6H4V4z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   Logout
                 </button>

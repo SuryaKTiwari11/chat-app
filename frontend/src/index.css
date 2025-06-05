@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Default theme styles for common elements */
+@layer base {
+  body {
+    @apply bg-base-100 text-base-content min-h-screen;
+  }
+  
+  /* Force immediate application of theme on page load */
+  #root {
+    @apply bg-base-100 text-base-content min-h-screen;
+  }
+}

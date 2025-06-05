@@ -4,7 +4,6 @@ import { useAuthStore } from "../../store/useAuthStore";
 import toast from "react-hot-toast";
 
 const SignupForm = () => {
-  
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,24 +26,20 @@ const SignupForm = () => {
   };
 
   const validateForm = () => {
-
     let isValid = true;
     // Name validation
     if (!formData.fullname.trim()) {
       toast.error("Full name is required");
       isValid = false;
-    
     }
 
     // Email validation
     if (!formData.email) {
       toast.error("Email is required");
       isValid = false;
-   
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       toast.error("Email address is invalid");
       isValid = false;
-     
     }
 
     // Password validation
@@ -56,14 +51,13 @@ const SignupForm = () => {
       isValid = false;
     }
 
-    
     // Terms validation
     if (!formData.agreeToTerms) {
       toast.error("You must agree to the terms and conditions");
       isValid = false;
     }
-    
-    return isValid; 
+
+    return isValid;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();

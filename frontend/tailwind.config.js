@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import tailgrids from "tailgrids/plugin";
-
+import daisyui from "daisyui";
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
@@ -29,6 +29,30 @@ export default {
         "300%": "300%",
       },
     },
+  },  plugins: [tailgrids, daisyui],
+  daisyui: {
+    themes: [
+      {
+        "premium-dark": {
+          primary: "#6366f1", // indigo-500
+          "primary-content": "#ffffff", // white
+          secondary: "#06b6d4", // cyan-500
+          "secondary-content": "#ffffff", // white
+          accent: "#9333ea", // purple-600
+          "accent-content": "#ffffff", // white
+          neutral: "#1e293b", // slate-800
+          "neutral-focus": "#334155", // slate-700
+          "neutral-content": "#f8fafc", // slate-50
+          "base-100": "#0f172a", // slate-900
+          "base-200": "#1e293b", // slate-800
+          "base-300": "#334155", // slate-700
+          "base-content": "#f8fafc", // slate-50
+          info: "#3abff8",
+          success: "#36d399",
+          warning: "#fbbd23",
+          error: "#f87272",
+        },
+      },
+    ],
   },
-  plugins: [tailgrids],
 };

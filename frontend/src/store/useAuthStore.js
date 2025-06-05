@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 // import { updateProfile } from "../../../backend/controllers/auth.controller.js";
-export const useAuthStore = create((set, get) => ({
+export const useAuthStore = create((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
