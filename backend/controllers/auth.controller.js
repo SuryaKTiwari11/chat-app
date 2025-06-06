@@ -79,35 +79,38 @@ export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
     const userId = req.user._id;
-    if (!profile)
+
+    if (!profilePic) {
       return res.status(400).json({
-        message: "profile pic required",
+        message: "Profile picture required",
       });
+    }
+
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updateUser = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { profile: uploadResponse.secure_url },
+      { profilePic: uploadResponse.secure_url },
       { new: true }
-      //By default, findOneAndUpdate() returns the document as it was before update was applied. 
+      //By default, findOneAndUpdate() returns the document as it was before update was applied.
       // If you set new: true, findOneAndUpdate() will instead give you the object after update was applied.
-    );
+    ).select("-password");
+
+    // Return the updated user data
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "internal error" });
   }
 };
 
-export const checkAuth = async(req,res)=>{
-
-  try
-  {
-    res.status(200).json(
-      req.user
-    )
+export const checkAuth = async (req, res) => {
+  try {
+    // req.user is already set by the protectRoute middleware
+    // Send back the user data
+    console.log("Auth check succeeded for user:", req.user._id);
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log("Auth check error:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
-  catch(error){
-    console.log("error",error.message)
-    res.status(500).json({message:"internal server error"})
-  }
-
-}
+};

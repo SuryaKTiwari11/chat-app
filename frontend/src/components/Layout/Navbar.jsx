@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
@@ -8,7 +9,6 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const userMenuRef = useRef(null);
 
   useEffect(() => {
@@ -31,10 +31,16 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const handleLogout = async () => {
-    await logout();
-    navigate("/");
+    try {
+      await logout();
+      // Toast notification is handled in the logout function in useAuthStore
+      console.log("Logout initiated successfully");
+      setIsUserMenuOpen(false); // Close the user menu
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast.error("Couldn't log out. Please try again.");
+    }
   };
 
   const isActive = (path) => {
@@ -192,7 +198,8 @@ const Navbar = () => {
                         />
                       </svg>
                       Settings
-                    </div>                  </Link>
+                    </div>{" "}
+                  </Link>
                   <div className="border-t border-gray-700 my-2"></div>
                   <button
                     onClick={handleLogout}
@@ -320,7 +327,8 @@ const Navbar = () => {
                 to="/settings"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Settings              </MobileNavLink>
+                Settings{" "}
+              </MobileNavLink>
               <div className="pt-3">
                 <button
                   onClick={() => {

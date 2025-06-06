@@ -14,8 +14,15 @@ app.use(express.json()); // to de construct the req
 app.use(cookieParser()); // for handling JWT cookies
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.PRODUCTION_URL],
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      process.env.PRODUCTION_URL,
+      process.env.LOCAL_URL,
+    ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
 app.use("/api/auth", authRouter);

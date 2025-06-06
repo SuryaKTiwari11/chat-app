@@ -11,12 +11,13 @@ const HomePage = () => {
     setIsLoaded(true);
   }, []);
 
-  return (
+  return ( <>
+      <Navbar />  
     <div className="min-h-screen bg-[#0F172A] text-white">
-      <Navbar />
 
       {/* Hero Section with animated elements */}
       <section className="pt-32 pb-24 relative overflow-hidden">
+
         {/* Background gradient blobs */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
           <div className="absolute top-1/4 -left-10 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl"></div>
@@ -274,8 +275,9 @@ const HomePage = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
+      <Footer />
+      </>
   );
 };
 

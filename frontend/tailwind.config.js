@@ -29,7 +29,8 @@ export default {
         "300%": "300%",
       },
     },
-  },  plugins: [tailgrids, daisyui],
+  },
+  plugins: [tailgrids, daisyui],
   daisyui: {
     themes: [
       {
