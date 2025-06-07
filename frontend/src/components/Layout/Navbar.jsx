@@ -54,17 +54,16 @@ const Navbar = () => {
           ? "py-3 bg-[#0F172A]/80 backdrop-blur-md shadow-lg"
           : "py-5 bg-transparent"
       }`}
-    >
-      <div className="container mx-auto px-6">
+    >      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-indigo-500/30 transition-all duration-300">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-indigo-500/30 transition-all duration-300 animate-glow-pulse">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="w-5 h-5 text-white"
+                className="w-5 h-5 text-white group-hover:animate-pulse-once"
               >
                 <path
                   fillRule="evenodd"
@@ -92,18 +91,18 @@ const Navbar = () => {
           {/* Desktop Auth Buttons or User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {!authUser ? (
-              <>
-                <Link
+              <>                <Link
                   to="/login"
-                  className="px-4 py-2 rounded-xl text-white hover:text-cyan-400 transition-all duration-300"
+                  className="px-4 py-2 rounded-xl text-white hover:text-cyan-400 transition-all duration-300 relative group overflow-hidden"
                 >
-                  Login
+                  <span className="relative z-10">Login</span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-400 to-cyan-400 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-xl shadow-md hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300"
+                  className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-xl shadow-md hover:shadow-indigo-500/50 hover:scale-105 transition-all duration-300 relative overflow-hidden before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-gradient-to-r before:from-indigo-600 before:to-cyan-600 before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 before:-z-10"
                 >
-                  Get Started
+                  <span className="relative z-10">Get Started</span>
                 </Link>
               </>
             ) : (
@@ -111,11 +110,10 @@ const Navbar = () => {
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center space-x-2 focus:outline-none"
-                >
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
-                    {authUser.avatar ? (
+                >                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
+                    {authUser.profilePic ? (
                       <img
-                        src={authUser.avatar}
+                        src={authUser.profilePic}
                         alt={authUser.fullname || "User"}
                         className="w-full h-full object-cover"
                       />
@@ -293,12 +291,11 @@ const Navbar = () => {
 
           {authUser ? (
             <>
-              {/* User info section */}
-              <div className="pt-4 border-t border-gray-700 flex items-center space-x-3">
+              {/* User info section */}              <div className="pt-4 border-t border-gray-700 flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
-                  {authUser.avatar ? (
+                  {authUser.profilePic ? (
                     <img
-                      src={authUser.avatar}
+                      src={authUser.profilePic}
                       alt={authUser.fullname || "User"}
                       className="w-full h-full object-cover"
                     />

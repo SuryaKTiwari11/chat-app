@@ -7,7 +7,7 @@ import {
 } from "../controllers/message.controller.js";
 const router = express.Router();
 
-router.get("/user", protectRoute, getUserForSidebar);
-router.get("/:id", protectRoute, getMessages); // for getting the user for sidebar
-router.post("/send/:id", protectRoute, sendMessage); // for sending the message to the user
+router.get("/user", protectRoute, getUserForSidebar); // for getting users for sidebar
+router.get("/:id", protectRoute, getMessages); // for getting messages with a specific user
+router.post("/send/:id", protectRoute, sendMessage); // for sending a message to a user
 export default router;

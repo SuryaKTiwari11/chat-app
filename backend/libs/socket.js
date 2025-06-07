@@ -35,6 +35,13 @@ io.on("connection", (socket) => {
   //sends events to all conntected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
+  // Listen for profile updates
+  socket.on("profileUpdated", (data) => {
+    console.log(`Profile updated for user ${data.userId}:`, data);
+    // Broadcast to all other connected clients
+    socket.broadcast.emit("profileUpdated", data);
+  });
+
   // Handle disconnection
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
@@ -43,13 +50,18 @@ io.on("connection", (socket) => {
       io.emit("getOnlineUsers", Object.keys(userSocketMap)); // Update all clients with the new list of online users
       console.log(`User ${userId} disconnected`);
     }
-  });
-
-  // Handle custom events here
+  }); // Handle custom events here
   socket.on("message", (data) => {
     console.log(`Message from ${socket.id}:`, data);
-    // Broadcast the message to all connected clients
-    io.emit("message", data);
+
+    // If we have receiver information, send it directly to them
+    if (data.receiverId && userSocketMap[data.receiverId]) {
+      console.log(`Sending direct message to ${data.receiverId}`);
+      io.to(userSocketMap[data.receiverId]).emit("newMessage", data);
+    }
+
+    // Also emit to sender for UI consistency
+    socket.emit("newMessage", data);
   });
 });
 

@@ -1,13 +1,19 @@
-import Sidebar from "../skeletons/Sidebar";
+import Sidebar from "./Sidebar";
 import NoChatSelected from "./NoChatSelected";
 import ChatContainer from "./ChatContainer";
 import { useChatStore } from "../../store/useChatStore";
+import Navbar from "../Layout/Navbar";
+import DebugPanel from "../UI/DebugPanel";
 
 const ChatPage = () => {
   const { selectedUser } = useChatStore();
-
   return (
     <div className="h-screen bg-base-200">
+      {/* Add Navbar at the top of the page */}
+      <Navbar />
+
+      {/* Debug panel for development/testing */}
+      <DebugPanel isVisible={false} />
       <div className="flex items-center justify-center pt-20 px-4">
         <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
           <div className="flex h-full rounded-lg overflow-hidden">

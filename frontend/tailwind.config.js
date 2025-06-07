@@ -10,6 +10,10 @@ export default {
         float: "float 6s ease-in-out infinite",
         pulse: "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "spin-slow": "spin 3s linear infinite",
+        "pulse-once": "pulse-once 2s ease-in-out forwards",
+        "slide-in-right": "slide-in-right 0.5s ease-out",
+        "slide-up": "slide-up 0.4s ease-out",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
       keyframes: {
         gradient: {
@@ -23,6 +27,23 @@ export default {
         spin: {
           "0%": { transform: "rotate(0deg)" },
           "100%": { transform: "rotate(360deg)" },
+        },
+        "pulse-once": {
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.05)", opacity: "0.8" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "slide-in-right": {
+          "0%": { transform: "translateX(30px)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { boxShadow: "0 0 5px 2px rgba(99, 102, 241, 0.4)" },
+          "50%": { boxShadow: "0 0 20px 5px rgba(99, 102, 241, 0.7)" },
         },
       },
       backgroundSize: {

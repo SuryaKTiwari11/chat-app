@@ -58,8 +58,7 @@ const SignupForm = () => {
     }
 
     return isValid;
-  };
-  const handleSubmit = async (e) => {
+  };  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -68,10 +67,20 @@ const SignupForm = () => {
 
     try {
       await signup(formData);
-      // The auth store will handle token storage and redirection
+      
+      // Show message directing user to login with a longer duration
+      toast.success(
+        "Account created successfully! You will be redirected to login page...", 
+        { duration: 5000 } // Show for 5 seconds
+      );
+      
+      // Add a small delay before redirecting to ensure the toast is visible
+      setTimeout(() => {
+        // The auth store will handle the actual redirection
+      }, 1500);
     } catch (error) {
       console.error("Signup failed", error);
-      setErrors({ form: "Registration failed. Please try again." });
+      setErrors({ form: error?.response?.data?.message || "Registration failed. Please try again." });
     }
   };
 

@@ -1,6 +1,7 @@
 import express from "express";
 import authRouter from "./route/auth.route.js";
 import messageRouter from "./route/message.route.js";
+import debugRouter from "./route/debug.route.js";
 import { configDotenv } from "dotenv";
 import { connectDB } from "./libs/db.js";
 import cors from "cors";
@@ -10,7 +11,10 @@ import { app, server } from "./libs/socket.js";
 configDotenv();
 
 const PORT = process.env.PORT;
-app.use(express.json()); // to de construct the req
+// Increase JSON payload size limit to handle larger image uploads (10MB)
+app.use(express.json({ limit: "10mb" }));
+// Increase URL-encoded payload size limit as well
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser()); // for handling JWT cookies
 app.use(
   cors({
@@ -25,8 +29,21 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
+
+// Additional headers for CORS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 app.use("/api/auth", authRouter);
-app.use("/api/messages", messageRouter); // for handling JWT cookies
+app.use("/api/messages", messageRouter); // for handling messages
+app.use("/api/debug", debugRouter); // for debugging and status checks
 server.listen(PORT, () => {
   console.log(`server is running on PORT:${PORT}`);
   connectDB();
