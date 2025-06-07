@@ -7,7 +7,7 @@ import { connectDB } from "./libs/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { app, server } from "./libs/socket.js";
-
+import path from "path";
 configDotenv();
 
 const PORT = process.env.PORT;
@@ -44,6 +44,16 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter); // for handling messages
 app.use("/api/debug", debugRouter); // for debugging and status checks
+
+const __dirname = path.resolve();
+if(process.env.NODE_ENV === "production") {
+  // Serve static files from the React frontend app
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  // Handle React routing, return all requests to React app
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
+}
 server.listen(PORT, () => {
   console.log(`server is running on PORT:${PORT}`);
   connectDB();

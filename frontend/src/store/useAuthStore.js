@@ -5,7 +5,9 @@ import { io } from "socket.io-client";
 
 // Vite automatically loads environment variables from .env files
 // No need to import dotenv in the frontend
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.MODE === "development"
+      ? "http://localhost:3000/api"
+      : "/"; 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,
