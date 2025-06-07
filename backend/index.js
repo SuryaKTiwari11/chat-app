@@ -23,6 +23,8 @@ app.use(
       "http://127.0.0.1:5173",
       process.env.PRODUCTION_URL,
       process.env.LOCAL_URL,
+      "https://*.onrender.com",  // Allow all Render.com subdomains
+      "https://*.vercel.app"     // Allow all Vercel.app subdomains
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -46,9 +48,15 @@ app.use("/api/messages", messageRouter); // for handling messages
 app.use("/api/debug", debugRouter); // for debugging and status checks
 
 const __dirname = path.resolve();
-if(process.env.NODE_ENV === "production") {
-  // Serve static files from the React frontend app
+
+// Serve static files and handle client-side routing in production
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  
+  // Handle client-side routing
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist", "index.html"));
+  });
   // Handle React routing, return all requests to React app
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
