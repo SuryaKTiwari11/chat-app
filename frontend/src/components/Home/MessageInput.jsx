@@ -1,18 +1,23 @@
 import { useRef, useState } from "react";
-
 import { Image as ImageIcon, Send, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useChatStore } from "../../store/useChatStore";
-import { successToast, errorToast, loadingToast, updateToast } from "../../utils/toastStyles";
+import {
+  successToast,
+  errorToast,
+  loadingToast,
+  updateToast,
+} from "../../utils/toastStyles";
 
 const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage } = useChatStore();  const handleImageChange = async (e) => {
+  const { sendMessage } = useChatStore();
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
-    if (!file) return;    // Validate file type
+    if (!file) return; // Validate file type
     if (!file.type.startsWith("image/")) {
       errorToast("Please select an image file");
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -26,13 +31,13 @@ const MessageInput = () => {
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
-    
+
     // Check if we're online before attempting to compress
     if (!navigator.onLine) {
       errorToast("You appear to be offline. Please check your connection.");
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
-    }// Create a function to compress images before sending
+    } // Create a function to compress images before sending
     const compressImage = (imageFile) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -105,18 +110,20 @@ const MessageInput = () => {
   const removeImage = () => {
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
-  };  const handleSendMessage = async (e) => {
+  };
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
 
     // Only show loading indicator for image uploads, as they take longer
     const hasImage = !!imagePreview;
     let toastId;
-    
+
     // Debug log to see what we're sending
     if (hasImage) {
       console.log("Image preview exists, base64 length:", imagePreview.length);
-    }    if (hasImage) {
+    }
+    if (hasImage) {
       // Only show toast for image uploads
       toastId = loadingToast("Preparing image for upload...");
 
@@ -130,7 +137,11 @@ const MessageInput = () => {
 
         if (sizeInMB > 3) {
           // Image is still large, try compressing further
-          updateToast(toastId, "Image is large, compressing further...", "loading");
+          updateToast(
+            toastId,
+            "Image is large, compressing further...",
+            "loading"
+          );
 
           // Create temp image for additional compression
           const img = new Image();
@@ -178,7 +189,7 @@ const MessageInput = () => {
       // Clear form
       setText("");
       setImagePreview(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";      // Dismiss any loading toast for image uploads
+      if (fileInputRef.current) fileInputRef.current.value = ""; // Dismiss any loading toast for image uploads
       if (hasImage && toastId) {
         updateToast(toastId, "Image sent successfully!", "success");
       }
@@ -188,7 +199,11 @@ const MessageInput = () => {
       // Enhanced error handling
       if (hasImage && toastId) {
         if (error?.response?.status === 413) {
-          updateToast(toastId, "Image too large. Try sending a smaller image.", "error");
+          updateToast(
+            toastId,
+            "Image too large. Try sending a smaller image.",
+            "error"
+          );
         } else if (error?.message?.includes("timeout")) {
           updateToast(
             toastId,
@@ -199,11 +214,23 @@ const MessageInput = () => {
           error?.message?.includes("Network Error") ||
           !navigator.onLine
         ) {
-          updateToast(toastId, "Network error. Please check your connection.", "error");
+          updateToast(
+            toastId,
+            "Network error. Please check your connection.",
+            "error"
+          );
         } else if (error?.response?.status >= 500) {
-          updateToast(toastId, "Server error. Please try again later.", "error");
+          updateToast(
+            toastId,
+            "Server error. Please try again later.",
+            "error"
+          );
         } else {
-          updateToast(toastId, "Failed to send image. Please try again.", "error");
+          updateToast(
+            toastId,
+            "Failed to send image. Please try again.",
+            "error"
+          );
         }
       } else if (!navigator.onLine) {
         errorToast("You appear to be offline. Please check your connection.");
@@ -213,7 +240,8 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full">      {imagePreview && (
+    <div className="p-4 w-full">
+      {imagePreview && (
         <div className="mb-3 flex items-center gap-2 animate-slide-up">
           <div className="relative group">
             <img
@@ -225,18 +253,19 @@ const MessageInput = () => {
             <button
               onClick={removeImage}
               className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#1E293B] border border-indigo-500/30
-              flex items-center justify-center hover:bg-red-500/20 transition-colors duration-300"
+              flex items-center justify-center hover:bg-red-500/20 transition-colors duration-300 hover:scale-110 hover:border-red-500/50"
               type="button"
             >
               <X className="size-3.5 text-red-400" />
             </button>
           </div>
         </div>
-      )}<form onSubmit={handleSendMessage} className="flex items-center gap-2">
+      )}
+      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
         <div className="flex-1 flex gap-2">
           <input
             type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md bg-[#1E293B] border-[#334155] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300"
+            className="w-full input input-bordered rounded-lg input-sm sm:input-md bg-[#1E293B] border-[#334155] focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-300 hover:border-indigo-500/50 animate-fade-in"
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -247,26 +276,40 @@ const MessageInput = () => {
             className="hidden"
             ref={fileInputRef}
             onChange={handleImageChange}
-          />          <button
+          />
+          <button
             type="button"
-            className={`hidden sm:flex btn btn-circle bg-[#1E293B] border border-[#334155] hover:bg-[#334155] hover:border-indigo-500 transition-colors duration-300 
-                     ${imagePreview ? "text-emerald-500" : "text-indigo-400"}`}
+            className={`hidden sm:flex btn btn-circle transition-all duration-300 
+              bg-[#1E293B] border border-[#334155] hover:bg-[#334155] hover:border-indigo-500 
+              hover:shadow-md hover:shadow-indigo-500/20 hover:scale-105 active:scale-95
+              ${imagePreview ? "text-emerald-500" : "text-indigo-400"}`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <ImageIcon size={20} className={`${imagePreview ? "animate-pulse-once" : ""}`} />
+            <ImageIcon
+              size={20}
+              className={imagePreview ? "animate-pulse-once" : "hover:animate-subtle-bounce"}
+            />
           </button>
         </div>
         <button
           type="submit"
-          className={`btn btn-sm btn-circle ${
-            text.trim() || imagePreview ? "bg-gradient-to-r from-indigo-500 to-cyan-500 border-none hover:shadow-md hover:shadow-indigo-500/30" : "bg-[#1E293B] border-[#334155]"
-          } transition-all duration-300`}
+          className={`btn btn-sm btn-circle transition-all duration-300 ${
+            text.trim() || imagePreview
+              ? "bg-gradient-to-r from-indigo-500 to-cyan-500 border-none hover:shadow-md hover:shadow-indigo-500/30 hover:scale-105 active:scale-95"
+              : "bg-[#1E293B] border-[#334155]"
+          }`}
           disabled={!text.trim() && !imagePreview}
         >
-          <Send size={22} className={text.trim() || imagePreview ? "text-white" : "text-gray-400"} />
+          <Send
+            size={22}
+            className={`transition-transform duration-300 ${
+              text.trim() || imagePreview ? "text-white hover:scale-110" : "text-gray-400"
+            }`}
+          />
         </button>
       </form>
     </div>
   );
 };
+
 export default MessageInput;

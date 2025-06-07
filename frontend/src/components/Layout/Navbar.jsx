@@ -54,44 +54,88 @@ const Navbar = () => {
           ? "py-3 bg-[#0F172A]/80 backdrop-blur-md shadow-lg"
           : "py-5 bg-transparent"
       }`}
-    >      <div className="container mx-auto px-6">
+    >
+      {" "}
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {" "}
+          {/* Logo with Enhanced Animations */}
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-indigo-500/30 transition-all duration-300 animate-glow-pulse">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-5 h-5 text-white group-hover:animate-pulse-once"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
-                  clipRule="evenodd"
-                />
-              </svg>
+            <div className="relative">
+              {/* Animated background glow */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500/50 to-cyan-400/50 rounded-lg blur-lg opacity-70 group-hover:opacity-100 transition-all duration-500 animate-breath"></div>
+
+              <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-cyan-400 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-indigo-500/40 transition-all duration-300 animate-glow-pulse relative z-10 group-hover:animate-hover-lift">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 text-white group-hover:animate-subtle-bounce"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-indigo-400 animate-gradient">
-              ConnectChat
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-cyan-400 to-indigo-400 animate-gradient relative z-10">
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300">
+                C
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-75">
+                o
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-100">
+                n
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-150">
+                n
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-200">
+                e
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-75">
+                c
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-100">
+                t
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-150">
+                C
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-200">
+                h
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-75">
+                a
+              </span>
+              <span className="inline-block hover:animate-subtle-bounce transition-all duration-300 delay-100">
+                t
+              </span>
             </h1>
           </Link>
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-1">
-            <NavLink to="/" isActive={isActive("/")}>
-              Home
-            </NavLink>
-            <NavLink to="/features" isActive={isActive("/features")}>
-              Features
-            </NavLink>
-            <NavLink to="/pricing" isActive={isActive("/pricing")}>
-              Pricing
-            </NavLink>
-          </div>{" "}
+          {/* Desktop Navigation Links - Only show when user is not logged in */}
+          {!authUser && (
+            <div className="hidden md:flex items-center space-x-1">
+              <NavLink to="/" isActive={isActive("/")}>
+                Home
+              </NavLink>
+              <NavLink to="/features" isActive={isActive("/features")}>
+                Features
+              </NavLink>
+              <NavLink to="/pricing" isActive={isActive("/pricing")}>
+                Pricing
+              </NavLink>
+            </div>
+          )}
           {/* Desktop Auth Buttons or User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {!authUser ? (
-              <>                <Link
+              <>
+                {" "}
+                <Link
                   to="/login"
                   className="px-4 py-2 rounded-xl text-white hover:text-cyan-400 transition-all duration-300 relative group overflow-hidden"
                 >
@@ -107,21 +151,28 @@ const Navbar = () => {
               </>
             ) : (
               <div className="relative" ref={userMenuRef}>
+                {" "}
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 focus:outline-none"
-                >                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
-                    {authUser.profilePic ? (
-                      <img
-                        src={authUser.profilePic}
-                        alt={authUser.fullname || "User"}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-semibold">
-                        {(authUser.fullname || "U").charAt(0)}
-                      </div>
-                    )}
+                  className="flex items-center space-x-2 focus:outline-none group"
+                >
+                  <div className="relative">
+                    {/* Subtle animated border */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full blur opacity-70 group-hover:opacity-100 transition-all duration-300 animate-spin-slow"></div>
+
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500 relative z-10 group-hover:border-cyan-400 transition-colors duration-300 group-hover:shadow-lg group-hover:shadow-cyan-500/20">
+                      {authUser.profilePic ? (
+                        <img
+                          src={authUser.profilePic}
+                          alt={authUser.fullname || "User"}
+                          className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-semibold animate-gradient bg-300%">
+                          {(authUser.fullname || "U").charAt(0)}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <span className="hidden lg:block">
                     {authUser.fullname || "User"}
@@ -140,13 +191,12 @@ const Navbar = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                </button>
-
+                </button>{" "}
                 {/* Dropdown Menu */}
                 <div
                   className={`absolute right-0 mt-2 w-56 bg-[#1E293B] rounded-xl shadow-lg py-2 z-50 transform origin-top-right transition-all duration-200 ${
                     isUserMenuOpen
-                      ? "opacity-100 scale-100"
+                      ? "opacity-100 scale-100 animate-scale-reveal"
                       : "opacity-0 scale-95 pointer-events-none"
                   }`}
                 >
@@ -155,16 +205,16 @@ const Navbar = () => {
                     <p className="text-white font-medium truncate">
                       {authUser.email}
                     </p>
-                  </div>
+                  </div>{" "}
                   <Link
                     to="/profile"
                     onClick={() => setIsUserMenuOpen(false)}
-                    className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
+                    className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200 group"
                   >
                     <div className="flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2 text-gray-400"
+                        className="h-5 w-5 mr-2 text-gray-400 group-hover:text-indigo-400 transition-colors duration-200"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -174,18 +224,20 @@ const Navbar = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Your Profile
+                      <span className="group-hover:translate-x-1 transition-transform duration-200">
+                        Your Profile
+                      </span>
                     </div>
                   </Link>{" "}
                   <Link
                     to="/settings"
                     onClick={() => setIsUserMenuOpen(false)}
-                    className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
+                    className="block px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200 group"
                   >
                     <div className="flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2 text-gray-400"
+                        className="h-5 w-5 mr-2 text-gray-400 group-hover:text-indigo-400 transition-colors duration-200 group-hover:animate-spin-slow"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -195,18 +247,20 @@ const Navbar = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Settings
+                      <span className="group-hover:translate-x-1 transition-transform duration-200">
+                        Settings
+                      </span>
                     </div>{" "}
                   </Link>
-                  <div className="border-t border-gray-700 my-2"></div>
+                  <div className="border-t border-gray-700 my-2"></div>{" "}
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200"
+                    className="block w-full text-left px-4 py-2 text-white hover:bg-[#334155] transition-all duration-200 group"
                   >
                     <div className="flex items-center text-red-400 hover:text-red-300">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 mr-2"
+                        className="h-5 w-5 mr-2 group-hover:-translate-x-1 group-hover:translate-y-1 transition-transform duration-300"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -216,23 +270,31 @@ const Navbar = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      Logout
+                      <span className="relative overflow-hidden">
+                        <span className="group-hover:opacity-0 transition-opacity duration-200">
+                          Logout
+                        </span>
+                        <span className="absolute left-0 top-0 -translate-y-full group-hover:translate-y-0 transition-transform duration-200 text-red-300">
+                          Logout
+                        </span>
+                      </span>
                     </div>
                   </button>
                 </div>
               </div>
             )}
-          </div>
-          {/* Mobile Menu Button */}
+          </div>{" "}
+          {/* Mobile Menu Button with Animation */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-white focus:outline-none relative group"
             aria-label="Toggle menu"
           >
+            <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             {!isMobileMenuOpen ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-6 w-6 transition-all duration-300 group-hover:text-cyan-400 group-active:scale-90"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -247,7 +309,7 @@ const Navbar = () => {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
+                className="h-6 w-6 transition-all duration-300 group-hover:text-cyan-400 group-active:scale-90 animate-pulse-once"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -263,7 +325,6 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-
       {/* Mobile Menu */}
       <div
         className={`md:hidden absolute top-full left-0 right-0 bg-[#1E293B] border-t border-gray-800 transition-all duration-300 ease-in-out ${
@@ -272,38 +333,48 @@ const Navbar = () => {
             : "opacity-0 -translate-y-4 pointer-events-none"
         }`}
       >
+        {" "}
         <div className="container mx-auto px-6 py-4 space-y-3">
-          <MobileNavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>
-            Home
-          </MobileNavLink>
-          <MobileNavLink
-            to="/features"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Features
-          </MobileNavLink>
-          <MobileNavLink
-            to="/pricing"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Pricing
-          </MobileNavLink>
+          {/* Only show Home/Features/Pricing when not logged in */}
+          {!authUser && (
+            <>
+              <MobileNavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>
+                Home
+              </MobileNavLink>
+              <MobileNavLink
+                to="/features"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Features
+              </MobileNavLink>
+              <MobileNavLink
+                to="/pricing"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Pricing
+              </MobileNavLink>
+            </>
+          )}
 
           {authUser ? (
             <>
-              {/* User info section */}              <div className="pt-4 border-t border-gray-700 flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
-                  {authUser.profilePic ? (
-                    <img
-                      src={authUser.profilePic}
-                      alt={authUser.fullname || "User"}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-semibold">
-                      {(authUser.fullname || "U").charAt(0)}
-                    </div>
-                  )}
+              {/* User info section */}{" "}
+              <div className="pt-4 border-t border-gray-700 flex items-center space-x-3">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full blur opacity-60 animate-breath"></div>
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500 relative z-10 animate-hover-lift">
+                    {authUser.profilePic ? (
+                      <img
+                        src={authUser.profilePic}
+                        alt={authUser.fullname || "User"}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-semibold animate-gradient bg-300%">
+                        {(authUser.fullname || "U").charAt(0)}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <p className="text-white font-medium">
@@ -374,33 +445,46 @@ const Navbar = () => {
   );
 };
 
-// Desktop Nav Link Component
+// Desktop Nav Link Component with Enhanced Animation
 const NavLink = ({ children, to, isActive }) => {
   return (
     <Link
       to={to}
       className={`relative px-4 py-2 font-medium transition-all duration-300 rounded-xl 
-      hover:text-cyan-400 group ${isActive ? "text-cyan-400" : "text-white"}`}
+      hover:text-cyan-400 group overflow-hidden ${
+        isActive ? "text-cyan-400" : "text-white"
+      }`}
     >
-      {children}
+      {/* Animated glow effect on hover */}
+      <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"></span>
+
+      {/* Text with subtle bounce animation */}
+      <span className="relative z-10 block group-hover:animate-subtle-bounce">
+        {children}
+      </span>
+
+      {/* Bottom line animation */}
       <span
-        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-cyan-400 
-        transition-all duration-300 group-hover:w-1/2
+        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-indigo-400 to-cyan-400
+        transition-all duration-300 group-hover:w-1/2 group-hover:animate-pulse
         ${isActive ? "w-1/2" : "w-0"}`}
       ></span>
     </Link>
   );
 };
 
-// Mobile Nav Link Component
+// Mobile Nav Link Component with Animation
 const MobileNavLink = ({ children, to, onClick }) => {
   return (
     <Link
       to={to}
       onClick={onClick}
-      className="block px-4 py-2.5 text-white hover:bg-[#334155] rounded-lg transition duration-300"
+      className="block px-4 py-2.5 text-white hover:bg-[#334155] rounded-lg transition duration-300 group relative overflow-hidden"
     >
-      {children}
+      <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-indigo-500 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+      <div className="relative z-10 flex items-center group-hover:translate-x-2 transition-transform duration-300">
+        {children}
+      </div>
     </Link>
   );
 };

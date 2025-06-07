@@ -7,7 +7,8 @@ const baseStyle = {
   background: "#1E293B", // Darker slate
   color: "#f8fafc", // Light text
   padding: "12px 16px",
-  boxShadow: "0 10px 15px -3px rgba(15, 23, 42, 0.5), 0 4px 6px -2px rgba(15, 23, 42, 0.3)",
+  boxShadow:
+    "0 10px 15px -3px rgba(15, 23, 42, 0.5), 0 4px 6px -2px rgba(15, 23, 42, 0.3)",
   fontWeight: "500",
   border: "1px solid rgba(99, 102, 241, 0.2)", // Subtle indigo border
 };

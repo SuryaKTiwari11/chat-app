@@ -75,7 +75,8 @@ export const useAuthStore = create((set, get) => ({
     } finally {
       set({ isCheckingAuth: false });
     }
-  },  signup: async (data) => {
+  },
+  signup: async (data) => {
     set({ isSigningUp: true });
     try {
       const response = await axiosInstance.post("/auth/signup", data);
@@ -87,7 +88,7 @@ export const useAuthStore = create((set, get) => ({
       console.log("Signup successful, user data:", response.data);
       // Don't set authUser on signup - wait for login
       toast.success("Signup successful! Please login with your credentials");
-      
+
       // Redirect to login page after signup instead of chat
       window.location.href = "/login";
     } catch (error) {
@@ -171,11 +172,14 @@ export const useAuthStore = create((set, get) => ({
     } finally {
       set({ isLoggingOut: false });
     }
-  },  updateProfile: async (data) => {
+  },
+  updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
       if (!navigator.onLine) {
-        throw new Error("You appear to be offline. Please check your connection.");
+        throw new Error(
+          "You appear to be offline. Please check your connection."
+        );
       }
 
       // Create a cleaner payload - only send fields that were updated
@@ -183,53 +187,59 @@ export const useAuthStore = create((set, get) => ({
       if (data.fullname) payload.fullname = data.fullname;
       if (data.bio !== undefined) payload.bio = data.bio;
       if (data.profilePic) payload.profilePic = data.profilePic;
-      
+
       // Don't make API call if there's nothing to update
       if (Object.keys(payload).length === 0) {
         console.warn("No data to update");
         return;
       }
-      
+
       const response = await axiosInstance.put("/auth/update-profile", payload);
-      
+
       // Get the previous authUser for notification
       const prevUser = get().authUser;
-      
+
       // Update the local user object with new data
       set({ authUser: response.data });
-        // Notify other components that profile has been updated
+      // Notify other components that profile has been updated
       if (typeof window !== "undefined") {
-        window.dispatchEvent(new CustomEvent('profileUpdated', { 
-          detail: { 
-            previousData: prevUser,
-            updatedData: response.data 
-          } 
-        }));
+        window.dispatchEvent(
+          new CustomEvent("profileUpdated", {
+            detail: {
+              previousData: prevUser,
+              updatedData: response.data,
+            },
+          })
+        );
       }
-      
+
       // If we have an active socket, notify other users about profile change
       const socket = get().socket;
       if (socket && socket.connected) {
         try {
-          socket.emit('profileUpdated', {
+          socket.emit("profileUpdated", {
             userId: response.data._id,
             newProfileData: {
               fullname: response.data.fullname,
-              profilePic: response.data.profilePic
-            }
+              profilePic: response.data.profilePic,
+            },
           });
-          console.log('Notified other users about profile update via socket');
+          console.log("Notified other users about profile update via socket");
         } catch (socketError) {
-          console.error('Failed to notify about profile update via socket:', socketError);
+          console.error(
+            "Failed to notify about profile update via socket:",
+            socketError
+          );
         }
       }
-      
+
       return response.data; // Return the updated data to the caller
     } catch (error) {
       console.error("Profile update failed:", error);
-      const errorMessage = error?.response?.data?.message || 
-                          error?.message || 
-                          "Profile update failed. Please try again.";
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Profile update failed. Please try again.";
       toast.error(errorMessage);
       throw error; // Re-throw the error so caller can handle it
     } finally {

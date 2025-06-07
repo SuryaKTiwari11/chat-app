@@ -1,7 +1,13 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { successToast, errorToast, loadingToast, updateToast, infoToast } from "../utils/toastStyles";
+import {
+  successToast,
+  errorToast,
+  loadingToast,
+  updateToast,
+  infoToast,
+} from "../utils/toastStyles";
 import { useAuthStore } from "./useAuthStore";
 export const useChatStore = create((set, get) => ({
   messages: [], // Renamed from message to messages for consistency
@@ -12,7 +18,8 @@ export const useChatStore = create((set, get) => ({
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
-      const response = await axiosInstance.get("/messages/user");      console.log("Users fetched:", response.data);
+      const response = await axiosInstance.get("/messages/user");
+      console.log("Users fetched:", response.data);
       set({ users: response.data });
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -24,14 +31,16 @@ export const useChatStore = create((set, get) => ({
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
-      const response = await axiosInstance.get(`/messages/${userId}`);      set({ messages: response.data });
+      const response = await axiosInstance.get(`/messages/${userId}`);
+      set({ messages: response.data });
     } catch (error) {
       console.error("Error fetching messages:", error);
       errorToast("Failed to load messages. Please try again.");
     } finally {
       set({ isMessagesLoading: false });
     }
-  },  sendMessage: async (messageData) => {
+  },
+  sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     if (!selectedUser) {
       errorToast("Please select a user to send a message.");
@@ -68,7 +77,7 @@ export const useChatStore = create((set, get) => ({
       set({ messages: [...messages, response.data] });
       return response.data;
     } catch (error) {
-      console.error("Error sending message:", error);      // Handle different error types with more specific messages
+      console.error("Error sending message:", error); // Handle different error types with more specific messages
       if (!navigator.onLine) {
         errorToast("No internet connection. Please check your network.");
       } else if (error?.response?.status === 413) {
@@ -107,14 +116,14 @@ export const useChatStore = create((set, get) => ({
     // First remove any existing listeners to prevent duplicates
     socket.off("newMessage");
     socket.off("profileUpdated");
-    
+
     // Listen for profile updates from other users
     socket.on("profileUpdated", (data) => {
       console.log("Received profile update via socket:", data);
       if (data && data.userId && data.newProfileData) {
         // Update the user in our local store
         get().updateUserProfile(data.userId, data.newProfileData);
-        
+
         // If this is the currently selected user, refresh UI elements
         if (get().selectedUser && get().selectedUser._id === data.userId) {
           // Force refresh profile images that might be cached
@@ -122,19 +131,21 @@ export const useChatStore = create((set, get) => ({
             const profilePic = data.newProfileData.profilePic;
             if (profilePic) {
               const timestamp = new Date().getTime();
-              document.querySelectorAll(`img[alt="${data.newProfileData.fullname}"]`).forEach(img => {
-                if (img.src.includes(profilePic.split('?')[0])) {
-                  img.src = profilePic.includes('?') 
-                    ? `${profilePic}&t=${timestamp}` 
-                    : `${profilePic}?t=${timestamp}`;
-                }
-              });
+              document
+                .querySelectorAll(`img[alt="${data.newProfileData.fullname}"]`)
+                .forEach((img) => {
+                  if (img.src.includes(profilePic.split("?")[0])) {
+                    img.src = profilePic.includes("?")
+                      ? `${profilePic}&t=${timestamp}`
+                      : `${profilePic}?t=${timestamp}`;
+                  }
+                });
             }
           }, 100);
         }
       }
     });
-    
+
     // Add the message listener
     socket.on("newMessage", (newMessage) => {
       console.log("Received new message:", newMessage);
@@ -158,13 +169,14 @@ export const useChatStore = create((set, get) => ({
           messages: [...state.messages, newMessage],
         }));
         console.log("Message added to current chat");
-      } else if (newMessage.senderId !== authUser._id) {        // Message is from someone else, but not in current chat - show notification
+      } else if (newMessage.senderId !== authUser._id) {
+        // Message is from someone else, but not in current chat - show notification
         const userName =
           get().users.find((user) => user._id === newMessage.senderId)
             ?.fullname || "Someone";
-          // Use a simpler toast notification without JSX
+        // Use a simpler toast notification without JSX
         const toastId = successToast(`New message from ${userName}`);
-        
+
         // Add click listener to the toast to navigate to the conversation
         document.getElementById(toastId)?.addEventListener("click", () => {
           // Find the user and switch to their chat when the notification is clicked
@@ -198,19 +210,19 @@ export const useChatStore = create((set, get) => ({
   updateUserProfile: (userId, updatedData) => {
     set((state) => {
       // Update in users list
-      const updatedUsers = state.users.map(user => 
+      const updatedUsers = state.users.map((user) =>
         user._id === userId ? { ...user, ...updatedData } : user
       );
-      
+
       // Update selected user if it's the one being changed
       let updatedSelectedUser = state.selectedUser;
       if (state.selectedUser && state.selectedUser._id === userId) {
         updatedSelectedUser = { ...state.selectedUser, ...updatedData };
       }
-      
-      return { 
+
+      return {
         users: updatedUsers,
-        selectedUser: updatedSelectedUser
+        selectedUser: updatedSelectedUser,
       };
     });
   },

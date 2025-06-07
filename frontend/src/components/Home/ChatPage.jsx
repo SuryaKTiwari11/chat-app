@@ -1,3 +1,4 @@
+import React from "react";
 import Sidebar from "./Sidebar";
 import NoChatSelected from "./NoChatSelected";
 import ChatContainer from "./ChatContainer";

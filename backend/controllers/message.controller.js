@@ -59,7 +59,8 @@ export const sendMessage = async (req, res) => {
         .json({ message: "Cannot send message to yourself" });
     }
 
-    let imageURL;    if (image) {
+    let imageURL;
+    if (image) {
       try {
         console.log("Uploading image to Cloudinary...");
 
@@ -91,21 +92,30 @@ export const sendMessage = async (req, res) => {
             { fetch_format: "auto" }, // Automatically use best format
           ],
         };
-        console.log("Starting Cloudinary upload with options:", JSON.stringify(uploadOptions));
+        console.log(
+          "Starting Cloudinary upload with options:",
+          JSON.stringify(uploadOptions)
+        );
         console.log("Image data starts with:", image.substring(0, 50) + "...");
         console.log("Image data length:", image.length);
-        console.log("Using Cloudinary config:", process.env.CLOUDINARY_CLOUD_NAME);
-        
+        console.log(
+          "Using Cloudinary config:",
+          process.env.CLOUDINARY_CLOUD_NAME
+        );
+
         const uploadImage = await enhancedCloudinary.uploader.upload(
           image,
           uploadOptions
         );
-        
+
         if (!uploadImage || !uploadImage.secure_url) {
           throw new Error("Cloudinary upload did not return expected response");
         }
-        console.log("Upload successful, response:", JSON.stringify(uploadImage, null, 2));
-        
+        console.log(
+          "Upload successful, response:",
+          JSON.stringify(uploadImage, null, 2)
+        );
+
         imageURL = uploadImage.secure_url;
         console.log("Image uploaded successfully:", uploadImage.public_id);
       } catch (imageError) {
