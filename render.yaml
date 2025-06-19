@@ -1,3 +1,4 @@
+# render.yaml
 services:
   # Backend API service
   - type: web
@@ -24,25 +25,15 @@ services:
       - key: CLOUDINARY_URL
         sync: false
       - key: FRONTEND_URL
-        fromService:
-          name: chat-app-frontend
-          type: static
-          property: url
+        sync: false
       - key: PRODUCTION_URL
-        fromService:
-          name: chat-app-frontend
-          type: static
-          property: url
-
-  # Frontend static site
-  - type: static
+        sync: false  # Frontend static site
+  - type: web
     name: chat-app-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
     rootDir: frontend
-    buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          name: chat-app-backend
-          type: web
-          property: url
+        sync: false
