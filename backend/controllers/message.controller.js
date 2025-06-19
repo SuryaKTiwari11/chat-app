@@ -9,7 +9,7 @@ export const getUserForSidebar = async (req, res) => {
     console.log("Getting users for user ID:", loggedInUserId);
 
     const filteredUsers = await User.find({
-      _id: { $ne: loggedInUserId }, // Fixed: Changed 'id' to '_id'
+      _id: { $ne: loggedInUserId },
     }).select("-password");
 
     console.log("Found users for sidebar:", filteredUsers.length);

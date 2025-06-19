@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { generateToken } from "../libs/utils.js";
 import cloudinary from "../libs/cloudinary.js";
-
 export const signup = async (req, res) => {
   const { email, fullname, password } = req.body;
   try {
@@ -20,7 +19,7 @@ export const signup = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      fullname,
+      fullname, 
       email,
       password: hashPassword,
     });
@@ -67,7 +66,6 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    // Clear the JWT cookie with same settings as when it was set
     res.cookie("jwt", "", {
       maxAge: 0,
       httpOnly: true,
