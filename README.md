@@ -44,6 +44,7 @@ If you prefer to deploy each service manually:
 ## Local Development
 
 ### Backend
+
 ```
 cd backend
 npm install
@@ -51,6 +52,7 @@ npm run dev
 ```
 
 ### Frontend
+
 ```
 cd frontend
 npm install
@@ -69,6 +71,7 @@ The application uses environment variables for configuration. For security:
 ### Required Environment Variables
 
 Backend:
+
 - `MONGODB_URI`: Your MongoDB connection string
 - `JWT_SECRET`: Secret key for JWT token generation
 - `CLOUDINARY_*`: Cloudinary credentials for image uploads
@@ -77,4 +80,5 @@ Backend:
 - `FRONTEND_URL`: URL of your deployed frontend
 
 Frontend:
+
 - `VITE_API_URL`: URL of your backend API
